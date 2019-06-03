@@ -1,0 +1,18 @@
+---
+- hosts: aws_galera_join
+  become: yes
+  tasks:    
+    - name: Stop service mariadb, if started
+      service:
+        name: mariadb
+        state: stopped
+    - name: Copy MariaDB config
+      vars:
+        cluster_ips: gcomm://3.120.13.137,52.58.96.28,52.58.7.128
+        node_ip: "{{ hostvars[inventory_hostname].inventory_hostname }}"
+        node_name: "{{ hostvars[inventory_hostname].nodename }}"
+      template: 
+        src: server.cnf
+        dest: /etc/my.cnf.d/server.cnf
+    - name: Ensure service is started and that it always starts on boot
+      service: name=mariadb state=started enabled=yes

@@ -1,0 +1,71 @@
+---
+- hosts: aws_servers
+  become: yes
+  tasks:
+
+    - name: Install MariaDB
+      yum:
+        name: "mariadb"
+        state: latest
+
+    - name: Install MariaDB server
+      yum:
+        name: "mariadb-server"
+        state: latest
+
+    - name: Ensure service is started and that it always starts on boot
+      service: name=mariadb state=started enabled=yes
+    
+    - name: Install MySQLdb Python package for secure installations.
+      yum: name=MySQL-python state=present
+
+    - name: Removes all anonymous user accounts
+      mysql_user:
+        check_implicit_admin: yes
+        login_user: 'root'
+        login_password: '{{ mysql_root_password }}'
+        name: ''
+        host_all: yes
+        state: absent
+
+    - name: Change root password
+      mysql_user:
+        check_implicit_admin: yes
+        login_user: 'root'
+        login_password: '{{ mysql_root_password }}'
+        name: 'root'
+        password: '{{ mysql_root_password }}'
+        priv: '*.*:ALL,GRANT'
+        host_all: yes
+        state: present
+    
+    - name: Remove database with name 'test'
+      mysql_db:
+        login_user: 'root'
+        login_password: '{{ mysql_root_password }}'
+        name: test
+        state: absent
+    
+    - name: Create a new database with name 'project'
+      mysql_db:
+        login_user: 'root'
+        login_password: '{{ mysql_root_password }}'
+        name: project
+        state: present
+
+    - name: Copy backup script
+      vars:
+        mysql_root_password: '{{ mysql_root_password }}'
+      template:
+        src: ./scripts/backup.sh
+        dest: /home/centos/backup.sh
+        owner: centos
+        group: centos
+        mode: 0644
+
+    - name: Ensure a job that runs once per night"
+      cron:
+        name: "Create backup"
+        minute: "1"
+        hour: "1"
+        job: "sh /home/centos/backup.sh >> /home/centos/backup.log"

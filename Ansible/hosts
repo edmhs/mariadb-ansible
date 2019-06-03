@@ -1,0 +1,15 @@
+[aws_servers]
+18.194.166.4 ansible_user=centos ansible_private_key_file=~/Sites/Keys/Eduards_AWS.pem
+#142.93.226.161 ansible_user=root ansible_private_key_file=~/.ssh/id_rsa
+
+[aws_galera]
+3.120.13.137 ansible_user=centos ansible_private_key_file=~/Sites/Keys/Eduards_AWS.pem nodename=node1
+52.58.96.28 ansible_user=centos ansible_private_key_file=~/Sites/Keys/Eduards_AWS.pem nodename=node2
+52.58.7.128 ansible_user=centos ansible_private_key_file=~/Sites/Keys/Eduards_AWS.pem nodename=node3
+
+[aws_galera_start]
+3.120.13.137 ansible_user=centos ansible_private_key_file=~/Sites/Keys/Eduards_AWS.pem nodename=node1
+
+[aws_galera_join]
+52.58.96.28 ansible_user=centos ansible_private_key_file=~/Sites/Keys/Eduards_AWS.pem nodename=node2
+52.58.7.128 ansible_user=centos ansible_private_key_file=~/Sites/Keys/Eduards_AWS.pem nodename=node3
