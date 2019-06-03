@@ -1,0 +1,5 @@
+.DS_Store
+Terraform/.terraform/
+Terraform/terraform.tfstate
+Terraform/terraform.tfstate.backup
+Terraform/terraform.tfvars.example
