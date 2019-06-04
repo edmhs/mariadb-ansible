@@ -58,9 +58,9 @@
         mysql_root_password: '{{ mysql_root_password }}'
       template:
         src: ./scripts/backup.sh
-        dest: /home/centos/backup.sh
-        owner: centos
-        group: centos
+        dest: /home/ec2-user/backup.sh
+        owner: ec2-user
+        group: ec2-user
         mode: 0644
 
     - name: Ensure a job that runs once per night"
@@ -68,4 +68,4 @@
         name: "Create backup"
         minute: "1"
         hour: "1"
-        job: "sh /home/centos/backup.sh >> /home/centos/backup.log"
+        job: "sh /home/ec2-user/backup.sh >> /home/ec2-user/backup.log"

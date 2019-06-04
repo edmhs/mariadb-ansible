@@ -6,7 +6,7 @@ DBSERVER=127.0.0.1
 DATABASE=project
 USER=root
 PASS={{ mysql_root_password }}
-FOLDER=/home/centos/backup
+FOLDER=/home/ec2-user/backup
 
 # create folder
 mkdir -p ${FOLDER}
