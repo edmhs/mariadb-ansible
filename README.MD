@@ -9,7 +9,7 @@ MariaDB in single instance mode.
 
 MariaDB in Multi master-to-master replication mode (Galera cluster)
 
-Daily backup scipt is set up in cron 
+Daily backup script is set up in cron.
 
 Tested with AWS Centos 7 and Digitalocean Centos 7 images.
 
